@@ -1,0 +1,15 @@
+
+<ust-applicants-list></ust-applicants-list>
+
+
+<ust-applicants-edit></ust-applicants-edit>
+
+
+
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="msgError$ | async as msgError">
+  <strong>¡Ocurrió un error!</strong> {{msgError}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>

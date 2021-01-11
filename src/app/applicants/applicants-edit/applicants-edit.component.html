@@ -1,0 +1,116 @@
+<div *ngIf="applicant$ | async as applicant">
+
+  <h3 class="text-center"
+      style="margin-bottom: 15px;">{{ applicant.id === 0 ? 'Registrar nuevo candidato' : 'Modificar datos del candidato' }}</h3>
+
+  <form novalidate
+        (ngSubmit)="saveOrUpdate(applicant)"
+        [formGroup]="form">
+
+
+    <div class="form-row">
+      <div class="col-md-6 mb-3">
+        <label for="nameTxt">Nombre(s)</label>
+        <input type="text"
+               class="form-control"
+               [ngClass]="{
+                'is-invalid':
+                isSubmiting && NameCtrl.invalid
+              }"
+               id="nameTxt"
+               autocomplete="off"
+               formControlName="name"
+               placeholder="Nombre(s)">
+        <div class="invalid-feedback" *ngIf="isSubmiting && NameCtrl.invalid">
+          <span *ngIf="NameCtrl.hasError('required')">
+            El nombre es requerido.
+          </span>
+          <span *ngIf="!NameCtrl.hasError('required') && NameCtrl.hasError('pattern')">
+            El nombre tiene un formato incorrecto.
+          </span>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="emailTxt">Correo electrónico</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend3">@</span>
+          </div>
+          <input type="email"
+                 class="form-control"
+                 [ngClass]="{
+                'is-invalid':
+                isSubmiting && EmailCtrl.invalid
+                  }"
+                 id="emailTxt"
+                 autocomplete="off"
+                 formControlName="email"
+                 placeholder="Correo electrónico"
+                 aria-describedby="inputGroupPrepend3">
+          <div class="invalid-feedback" *ngIf="isSubmiting && EmailCtrl.invalid">
+            <span *ngIf="EmailCtrl.hasError('required')">
+              El correo electrónico es requerido.
+            </span>
+            <span *ngIf="!EmailCtrl.hasError('required') && EmailCtrl.hasError('pattern')">
+              El correo electrónico tiene un formato incorrecto.
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-row">
+      <div class="col-md-6 mb-3">
+        <label for="edadTxt">Edad</label>
+        <input type="text"
+               class="form-control"
+               [ngClass]="{
+                'is-invalid':
+                isSubmiting && AgeCtrl.invalid
+              }"
+               id="edadTxt"
+               autocomplete="off"
+               formControlName="age"
+               placeholder="Edad">
+        <div class="invalid-feedback" *ngIf="isSubmiting && AgeCtrl.invalid">
+            <span *ngIf="AgeCtrl.hasError('required')">
+              La edad es requerida.
+            </span>
+          <span *ngIf="AgeCtrl.hasError('min')">
+              El candidato desde ser mayor de edad.
+            </span>
+          <span *ngIf="AgeCtrl.hasError('max')">
+              Edad incorrecta.
+            </span>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="selectSocialNetwork">State</label>
+        <select class="form-control" [ngClass]="{'is-invalid':isSubmiting && form.controls['socialNetwork'].invalid}"
+                id="selectSocialNetwork" formControlName="socialNetwork">
+          <option value="LINKEDIN">LinkedIn</option>
+          <option value="OCC">OCC</option>
+          <option value="JOBEMPLEOS">JobEmpleos</option>
+          <option value="INDEED">InDeed</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col-md-6 mb-3 mt-5">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">
+          {{ applicant.id === 0 ? 'Registrar' : 'Actualizar' }}
+        </button>
+      </div>
+
+      <div class="col-md-6 mb-3 mt-5">
+        <button type="button" class="btn btn-secondary btn-lg btn-block" (click)="cancel()">Cancelar</button>
+      </div>
+    </div>
+
+  </form>
+
+</div>

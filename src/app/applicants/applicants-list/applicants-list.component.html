@@ -1,0 +1,68 @@
+<div *ngIf="applicants$ | async as applicants"
+     style="margin-top: 15px;"
+     [ngStyle]="(selectedApplicant$ | async) ? {'display': 'none'} : {}">
+
+  <h3 class="text-center">Candidatos postulados a la vacante de Angular con Java</h3> <br>
+
+
+  <div class="form-row mb-5 mt-2">
+    <div class="col-6">
+      <input type="text" class="form-control" placeholder="Filtrar por nombre" [(ngModel)]="filter">
+    </div>
+
+    <div class="col-3">
+      <button type="button" (click)="search()" class="btn btn-primary mb-2">
+        Buscar por nombre
+      </button>
+    </div>
+
+    <div class="col-3">
+      <button type="button" (click)="initNewApplicantObject()" class="btn btn-success mb-2">
+        Registrar nuevo candidato
+      </button>
+    </div>
+  </div>
+
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col" class="text-center" style="cursor: pointer" (click)="propertyOrder = 'name'"
+          title="Ordenar por nombre(s)">Nombre(s)
+      </th>
+      <th scope="col" style="cursor: pointer" (click)="propertyOrder = 'email'" title="Ordenar por correo electrónico">
+        Correo electónico
+      </th>
+      <th scope="col" style="cursor: pointer" (click)="propertyOrder = 'age'" title="Ordenar por edad">Edad</th>
+      <th scope="col" style="cursor: pointer" (click)="propertyOrder = 'socialNetwork'" title="Ordenar por red social">
+        Red Social
+      </th>
+      <th scope="col">Editar</th>
+      <th scope="col">Descartar</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr
+      *ngFor="let applicant of applicants | paginate: { itemsPerPage: 10, currentPage: pageNumber, totalItems: applicants.length  } | orderListApplicants : propertyOrder ">
+      <th scope="row" class="text-capitalize">{{applicant.name.toLowerCase()}}</th>
+      <td class="text-lowercase">{{applicant.email}}</td>
+      <td><strong>{{applicant.age}}</strong> años</td>
+      <td>{{applicant.socialNetwork}}</td>
+      <td>
+        <button type="button" class="btn btn-primary" (click)="selectApplicant(applicant)">Editar</button>
+      </td>
+      <td>
+        <button type="button" class="btn btn-danger" (click)="deleteApplicant(applicant)">Descartar</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div style="float: right;">
+    <pagination-controls (pageChange)="pageNumber = $event" responsive="true"
+                         previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+  </div>
+
+
+</div>
+
